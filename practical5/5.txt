@@ -1,0 +1,79 @@
+# Step 1: Import libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+from sklearn.preprocessing import StandardScaler
+
+# Step 2: Load dataset
+df = pd.read_csv('Social_Network_Ads.csv')  # adjust path if needed
+
+# Step 3: Encoding Gender (optional if you use Gender)
+df['Gender'] = df['Gender'].map({'Male': 1, 'Female': 0})
+
+# Step 4: Features and Target
+X = df[['Age', 'EstimatedSalary']]  # Independent variables (you can include Gender if you want)
+y = df['Purchased']  # Dependent variable (0 or 1)
+
+# Step 5: Train-Test Split (before scaling)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+# Step 6: Apply Standard Scaling (after split to avoid data leakage)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Step 7: Train Logistic Regression
+model = LogisticRegression()
+model.fit(X_train_scaled, y_train)
+
+# Step 8: Predict on Test Data
+y_pred = model.predict(X_test_scaled)
+
+# Step 9: Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:")
+print(cm)
+
+# Extracting TP, TN, FP, FN manually
+TN, FP, FN, TP = cm.ravel()
+
+# Step 10: Metrics
+accuracy = accuracy_score(y_test, y_pred)
+error_rate = 1 - accuracy
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+# Step 11: Display Results
+print(f"\nTrue Positives (TP): {TP}")
+print(f"False Positives (FP): {FP}")
+print(f"True Negatives (TN): {TN}")
+print(f"False Negatives (FN): {FN}")
+
+print(f"\nAccuracy: {accuracy:.2f}")
+print(f"Error Rate: {error_rate:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+
+
+
+
+# True Positives (TP): 25
+
+# 25 instances where the model correctly predicted a purchase (1).
+
+# False Positives (FP): 2
+
+# 2 instances where the model incorrectly predicted a purchase when it didn't happen (1 → 0).
+
+# True Negatives (TN): 61
+
+# 61 instances where the model correctly predicted no purchase (0).
+
+# False Negatives (FN): 12
+
+# 12 instances where the model incorrectly predicted no purchase when there was actually a purchase (0 → 1).
+# Recall: 0.68 (68%)
+
+# Of all the actual purchases (1s), the model correctly predicted 68%. This means the model missed 32% of the purchases.
+
