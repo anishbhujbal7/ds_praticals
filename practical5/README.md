@@ -1,0 +1,15 @@
+### 4. **Logistic Regression on Social Network Ads**
+- **Dataset**: `Social_Network_Ads.csv`
+- **Objective**: Predict whether a user purchased a product based on Age, Salary, and Gender
+- **Techniques Used**:
+  - Logistic Regression
+  - Feature Scaling (`StandardScaler`)
+  - Gender encoding (Male:1, Female:0)
+  - Evaluation Metrics:
+    - Confusion Matrix
+    - Accuracy, Precision, Recall, Error Rate
+- **Results**:
+  - Accuracy: 86%
+  - Precision: 93%
+  - Recall: 68%
+- **Key Libraries**: Scikit-learn, Pandas
