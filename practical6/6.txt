@@ -1,0 +1,51 @@
+# iris_naive_bayes.py
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+
+# Load the dataset
+df = pd.read_csv("iris.csv")
+df.drop('Id', axis=1, inplace=True)
+
+# Split features and target
+X = df.drop('Species', axis=1)
+y = df['Species']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train Naive Bayes model
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred, labels=model.classes_)
+
+# Plot Confusion Matrix
+plt.figure(figsize=(6, 4))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=model.classes_, yticklabels=model.classes_)
+plt.xlabel('Predicted Label')
+plt.ylabel('Actual Label')
+plt.title('Confusion Matrix')
+plt.tight_layout()
+plt.show()
+
+# Metrics
+accuracy = accuracy_score(y_test, y_pred)
+error_rate = 1 - accuracy
+precision = precision_score(y_test, y_pred, average='macro')
+recall = recall_score(y_test, y_pred, average='macro')
+
+# Print Metrics
+print(f"Accuracy: {accuracy:.2f}")
+print(f"Error Rate: {error_rate:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
