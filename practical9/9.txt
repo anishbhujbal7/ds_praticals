@@ -1,0 +1,50 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from seaborn import load_dataset
+
+df=pd.read_csv('/content/titanicdataset.csv')
+df.head()
+
+sns.countplot(df['Survived'])
+# plt.show()
+
+df['Sex'].value_counts().plot(kind="pie", autopct="%.2f")
+plt.show()
+
+plt.hist(df['Age'], bins=5)
+plt.show()
+
+sns.distplot(df['Age'])
+plt.show()
+
+tips = sns.load_dataset('tips')
+sns.scatterplot(x=tips["total_bill"], y=tips["tip"], data=tips)
+
+sns.scatterplot(x="total_bill", y="tip", hue="sex", style="smoker", data=tips)
+plt.show()
+
+sns.scatterplot(x="total_bill", y="tip", hue="sex", style="smoker", data=tips)
+plt.show()
+
+sns.barplot(x=df['Pclass'], y=df['Age'])
+plt.show()
+
+sns.barplot(x=df['Pclass'], y=df['Fare'], hue=df["Sex"])
+plt.show()
+
+sns.boxplot(x=df['Sex'], y=df["Age"], hue=df["Survived"])
+plt.show()
+
+sns.distplot(df[df['Survived'] == 0]['Age'], hist=False, color="blue")
+sns.distplot(df[df['Survived'] == 1]['Age'], hist=False, color="orange")
+plt.show()
+
+pd.crosstab(df['Pclass'], df['Survived'])
+
+sns.heatmap(pd.crosstab(df['Pclass'], df['Survived']))
+
+sns.clustermap(pd.crosstab(df['Parch'], df['Survived']))
+plt.show()
+
