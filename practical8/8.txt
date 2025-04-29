@@ -1,0 +1,86 @@
+import pandas as pd
+titanic_df = pd.read_csv(file_path)
+titanic_df.head(10)
+
+import matplotlib.pyplot as plt
+
+# 1. Survival rate by passenger class and gender
+plt.figure(figsize=(10, 6))
+titanic_df.groupby(['Pclass', 'Sex'])['Survived'].mean().unstack().plot(kind='bar', ax=plt.gca())
+plt.title('Survival Rate by Passenger Class and Gender')
+plt.xlabel('Passenger Class')
+plt.ylabel('Survival Rate')
+plt.xticks(rotation=0)
+plt.legend(title='Sex')
+plt.tight_layout()
+plt.show()
+
+
+# 2. Histograms/box plots for 'Age' and 'Fare'
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.hist(titanic_df['Age'].dropna(), bins=20, color='skyblue', edgecolor='black')
+plt.title('Distribution of Age')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+
+plt.subplot(1, 2, 2)
+plt.boxplot(titanic_df['Fare'].dropna(), vert=False, patch_artist=True, boxprops=dict(facecolor='lightcoral'))
+plt.title('Distribution of Fare')
+plt.xlabel('Fare')
+
+plt.tight_layout()
+plt.show()
+
+
+import seaborn as sns
+
+DISTPLOT=sns.distplot(x=titanic_df['Age'],bins=10)
+DISTPLOT.set_title('Age distribution')
+DISTPLOT.set_xlabel('Age')
+DISTPLOT.set_ylabel('Frequency')
+plt.show()
+
+jointplot=sns.jointplot(x='Age',y='Fare',data=titanic_df,kind='scatter')
+jointplot.fig.suptitle('Age vs Fare', fontsize=16)
+plt.show()
+
+rugplot=sns.rugplot(x='Age', data=titanic_df)
+rugplot.set_title('Age distribution with Rug Plot')
+plt.show()
+
+sns.barplot(x='Sex',y='Age',data=titanic_df,hue='Survived')
+plt.title('Age distribution by Sex')
+plt.show()
+
+coutplot=sns.countplot(x='Survived',data=titanic_df)
+coutplot.set_title('Survived')
+plt.show()
+
+boxplot=sns.boxplot(x='Sex', y='Age',data=titanic_df,hue='Survived')
+boxplot.set_title('Age distribution by Sex')
+plt.show()
+     
+voilinPlot=sns.violinplot(x='Sex',y='Age',data=titanic_df,hue='Survived')
+voilinPlot.set_title('Age distribution by Sex')
+plt.show()
+
+stripPlot=sns.stripplot(x='Sex',y='Age',data=titanic_df,hue='Survived')
+stripPlot.set_title('Age distribution by Sex')
+plt.show()
+
+
+swarmPlot=sns.swarmplot(x='Sex',y='Age',data=titanic_df,hue='Survived')
+swarmPlot.set_title('Age distribution by Sex')
+plt.show()
+     
+import numpy as np
+corr = titanic_df.select_dtypes(include=np.number).corr()
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()
+
+clusterMap= sns.histplot(titanic_df['Fare'], kde=False,bins=10)
+clusterMap.set_title('Fare distribution')
+plt.show()
