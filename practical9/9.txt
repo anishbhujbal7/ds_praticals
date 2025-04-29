@@ -41,10 +41,14 @@ sns.distplot(df[df['Survived'] == 0]['Age'], hist=False, color="blue")
 sns.distplot(df[df['Survived'] == 1]['Age'], hist=False, color="orange")
 plt.show()
 
-pd.crosstab(df['Pclass'], df['Survived'])
+ct = pd.crosstab(df['Pclass'], df['Survived'])
+# Plot the heatmap
+plt.figure(figsize=(6, 4))
+sns.heatmap(ct, annot=True, fmt='d', cmap='Blues', linewidths=0.5, cbar=False)
 
-sns.heatmap(pd.crosstab(df['Pclass'], df['Survived']))
-
-sns.clustermap(pd.crosstab(df['Parch'], df['Survived']))
+# Add labels and title
+plt.title('Survival Count by Passenger Class')
+plt.xlabel('Survived')
+plt.ylabel('Passenger Class')
+plt.tight_layout()
 plt.show()
-
